@@ -9,7 +9,6 @@ import de.st_ddt.crazychats.CrazyChats;
 import de.st_ddt.crazyplugin.exceptions.CrazyCommandUsageException;
 import de.st_ddt.crazyplugin.exceptions.CrazyException;
 import de.st_ddt.crazyutil.ChatHelper;
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.source.Localized;
 import de.st_ddt.crazyutil.source.Permission;
 
@@ -58,6 +57,6 @@ public class CommandGroupPrefix extends CommandExecutor
 	@Permission("crazychats.group.prefix")
 	public boolean hasAccessPermission(final CommandSender sender)
 	{
-		return PermissionModule.hasPermission(sender, "crazychats.group.prefix");
+		return sender.hasPermission("crazychats.group.prefix");
 	}
 }

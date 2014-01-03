@@ -16,7 +16,6 @@ import de.st_ddt.crazyplugin.exceptions.CrazyCommandPermissionException;
 import de.st_ddt.crazyplugin.exceptions.CrazyCommandUsageException;
 import de.st_ddt.crazyplugin.exceptions.CrazyException;
 import de.st_ddt.crazyutil.ChatHelperExtended;
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.paramitrisable.BooleanParamitrisable;
 import de.st_ddt.crazyutil.paramitrisable.PlayerDataParamitrisable;
 import de.st_ddt.crazyutil.paramitrisable.StringParamitrisable;
@@ -59,7 +58,7 @@ public class CommandPlayerSilence extends CommandExecutor
 		if (data == null)
 			throw new CrazyCommandUsageException("<player:Player> [until:Date/Duration] [quiet:Boolean] [reason:String]");
 		if (admin.getValue())
-			if (!PermissionModule.hasPermission(sender, "crazychats.player.silence.adminbypass"))
+			if (!sender.hasPermission("crazychats.player.silence.adminbypass"))
 				throw new CrazyCommandPermissionException();
 		final Date date = until.getValue();
 		if (!admin.getValue())
@@ -105,6 +104,6 @@ public class CommandPlayerSilence extends CommandExecutor
 	@Permission("crazychats.player.silence")
 	public boolean hasAccessPermission(final CommandSender sender)
 	{
-		return PermissionModule.hasPermission(sender, "crazychats.player.silence");
+		return sender.hasPermission("crazychats.player.silence");
 	}
 }

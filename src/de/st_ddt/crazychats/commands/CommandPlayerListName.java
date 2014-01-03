@@ -14,7 +14,6 @@ import de.st_ddt.crazyplugin.exceptions.CrazyCommandPermissionException;
 import de.st_ddt.crazyplugin.exceptions.CrazyCommandUsageException;
 import de.st_ddt.crazyplugin.exceptions.CrazyException;
 import de.st_ddt.crazyutil.ChatHelper;
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.source.Localized;
 import de.st_ddt.crazyutil.source.Permission;
 
@@ -37,7 +36,7 @@ public class CommandPlayerListName extends CommandExecutor
 		if (data == null)
 			throw new CrazyCommandNoSuchException("Player", name);
 		final Player player = data.getPlayer();
-		if (!PermissionModule.hasPermission(sender, "crazychats.player.listname." + (player != null && player.equals(sender) ? "self" : "other")))
+		if (!sender.hasPermission("crazychats.player.listname." + (player != null && player.equals(sender) ? "self" : "other")))
 			throw new CrazyCommandPermissionException();
 		if (args.length == 2)
 		{
@@ -78,6 +77,6 @@ public class CommandPlayerListName extends CommandExecutor
 	@Permission({ "crazychats.player.listname.self", "crazychats.player.listname.other" })
 	public boolean hasAccessPermission(final CommandSender sender)
 	{
-		return PermissionModule.hasPermission(sender, "crazychats.player.listname.self") || PermissionModule.hasPermission(sender, "crazychats.player.listname.other");
+		return sender.hasPermission("crazychats.player.listname.self") || sender.hasPermission("crazychats.player.listname.other");
 	}
 }

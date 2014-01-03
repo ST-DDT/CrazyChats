@@ -14,7 +14,6 @@ import de.st_ddt.crazyplugin.exceptions.CrazyCommandUsageException;
 import de.st_ddt.crazyplugin.exceptions.CrazyException;
 import de.st_ddt.crazyutil.ChatHelper;
 import de.st_ddt.crazyutil.locales.CrazyLocale;
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.paramitrisable.PlayerParamitrisable;
 import de.st_ddt.crazyutil.source.Localized;
 import de.st_ddt.crazyutil.source.Permission;
@@ -62,7 +61,7 @@ public class CommandClearChat extends CommandExecutor
 				});
 			else
 				throw new CrazyCommandUsageException("<Player/*>");
-		else if (!PermissionModule.hasPermission(sender, "crazychats.clearchat"))
+		else if (!sender.hasPermission("crazychats.clearchat"))
 			throw new CrazyCommandPermissionException();
 		else if (args.length == 1 && args[0].equals("*"))
 		{
@@ -75,11 +74,11 @@ public class CommandClearChat extends CommandExecutor
 				public void run()
 				{
 					for (final Player player : players)
-						if (PermissionModule.hasPermission(player, "crazychats.chatspy"))
+						if (player.hasPermission("crazychats.chatspy"))
 							done.sendMessage(player, sender.getName(), "*ALL*");
 						else
 							clearChat(player, count, sender, clear, cleared);
-					if (!PermissionModule.hasPermission(sender, "crazychats.chatspy") || !(sender instanceof Player))
+					if (!sender.hasPermission("crazychats.chatspy") || !(sender instanceof Player))
 						done.sendMessage(sender, sender.getName(), "*ALL*");
 					if (!(sender instanceof ConsoleCommandSender))
 						done.sendMessage(Bukkit.getConsoleSender(), sender.getName(), "*ALL*");

@@ -29,7 +29,6 @@ import de.st_ddt.crazyutil.locales.CrazyLocale;
 import de.st_ddt.crazyutil.modes.BooleanFalseMode;
 import de.st_ddt.crazyutil.modes.ChatFormatMode;
 import de.st_ddt.crazyutil.modes.Mode;
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.source.Localized;
 import de.st_ddt.crazyutil.source.Permission;
 
@@ -224,7 +223,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 			@Permission("crazychats.customchannel.admin")
 			public boolean hasAccessPermission(final CommandSender sender)
 			{
-				return sender.getName().equals(owner) || PermissionModule.hasPermission(sender, "crazychats.customchannel.admin");
+				return sender.getName().equals(owner) || sender.hasPermission("crazychats.customchannel.admin");
 			}
 		}, "members");
 		mainCommand.addSubCommand(new CrazyCommandCollectionEditor<CrazyChats, String>(plugin)
@@ -290,7 +289,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 			@Permission("crazychats.customchannel.admin")
 			public boolean hasAccessPermission(final CommandSender sender)
 			{
-				return sender.getName().equals(owner) || PermissionModule.hasPermission(sender, "crazychats.customchannel.admin");
+				return sender.getName().equals(owner) || sender.hasPermission("crazychats.customchannel.admin");
 			}
 		}, "talkPlayers");
 		mainCommand.addSubCommand(new CrazyCommandCollectionEditor<CrazyChats, String>(plugin)
@@ -356,7 +355,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 			@Permission("crazychats.customchannel.admin")
 			public boolean hasAccessPermission(final CommandSender sender)
 			{
-				if (PermissionModule.hasPermission(sender, "crazychats.customchannel.admin"))
+				if (sender.hasPermission("crazychats.customchannel.admin"))
 					return true;
 				switch (inviteRule)
 				{
@@ -369,7 +368,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 					case OWNERONLY:
 						return sender.getName().equals(owner);
 					case PERMISSION:
-						return PermissionModule.hasPermission(sender, joinPermission);
+						return sender.hasPermission(joinPermission);
 					default:
 						return false;
 				}
@@ -583,7 +582,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 				if (talkPermission == null)
 					return false;
 				else
-					return PermissionModule.hasPermission(player, talkPermission);
+					return player.hasPermission(talkPermission);
 			default:
 				return false;
 		}
@@ -618,7 +617,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 				if (listenPermission == null)
 					return players;
 				for (final Player target : Bukkit.getOnlinePlayers())
-					if (PermissionModule.hasPermission(target, listenPermission))
+					if (target.hasPermission(listenPermission))
 						players.add(target);
 				return players;
 			}
@@ -687,7 +686,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 			{
 				if (joinPermission == null)
 					return false;
-				if (PermissionModule.hasPermission(player, joinPermission))
+				if (player.hasPermission(joinPermission))
 				{
 					members.add(player.getName());
 					activeMembers.add(player);
@@ -800,7 +799,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 		@Permission("crazychats.customchannel.admin")
 		public boolean hasAccessPermission(final CommandSender sender)
 		{
-			return sender.getName().equals(owner) || PermissionModule.hasPermission(sender, "crazychats.customchannel.admin");
+			return sender.getName().equals(owner) || sender.hasPermission("crazychats.customchannel.admin");
 		}
 	}
 

@@ -33,7 +33,6 @@ import de.st_ddt.crazychats.data.ChatPlayerData;
 import de.st_ddt.crazyplugin.CrazyLightPluginInterface;
 import de.st_ddt.crazyutil.ChatHelper;
 import de.st_ddt.crazyutil.CrazyChatsChatHelper;
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.source.Localized;
 import de.st_ddt.crazyutil.source.Permission;
 
@@ -195,7 +194,7 @@ public class CrazyChatsPlayerListener implements Listener
 				return;
 			}
 			final Player player = event.getPlayer();
-			if (player.getName().equals(channel.getOwner()) || PermissionModule.hasPermission(player, "crazychats.customchannel.admin"))
+			if (player.getName().equals(channel.getOwner()) || player.hasPermission("crazychats.customchannel.admin"))
 				plugin.sendLocaleMessage("SIGN.CREATED", player, id, channel.getName());
 			else
 				lines[1] = ChatColor.RED + "INVALID";
@@ -240,7 +239,7 @@ public class CrazyChatsPlayerListener implements Listener
 	@Localized({ "CRAZYCHATS.CHAT.BLOCKED.NOPERMISSION", "CRAZYCHATS.CHAT.BLOCKED.SILENCED $UntilDateTime$", "CRAZYCHATS.CHAT.BLOCKED.NOSUCHPLAYER $Player$", "CRAZYCHATS.CHANNEL.CHANGED $Channel$", "CRAZYCHATS.CHAT.BLOCKED.NOCHANNEL", "CRAZYCHATS.CHAT.BLOCKED.SERVERSILENCED" })
 	protected ChatResult PlayerChat(final Player player, String message)
 	{
-		if (!PermissionModule.hasPermission(player, "crazychats.talk"))
+		if (!player.hasPermission("crazychats.talk"))
 		{
 			plugin.sendLocaleMessage("CHAT.BLOCKED.NOPERMISSION", player);
 			return CANCELLED;
@@ -299,7 +298,7 @@ public class CrazyChatsPlayerListener implements Listener
 			return CANCELLED;
 		}
 		if (plugin.isServerSilenced())
-			if (!PermissionModule.hasPermission(player, "crazychats.serversilence.bypass"))
+			if (!player.hasPermission("crazychats.serversilence.bypass"))
 				if (channel.isAffectedByServerSilence())
 				{
 					plugin.sendLocaleMessage("CHAT.BLOCKED.SERVERSILENCED", player);
@@ -311,7 +310,7 @@ public class CrazyChatsPlayerListener implements Listener
 		synchronized (channelTargets)
 		{
 			for (final Player target : channelTargets)
-				if (!plugin.getAvailablePlayerData(target).isMuted(player) || PermissionModule.hasPermission(player, "crazychats.unmutable"))
+				if (!plugin.getAvailablePlayerData(target).isMuted(player) || player.hasPermission("crazychats.unmutable"))
 					targets.add(target);
 		}
 		if (channel instanceof PrivateChannel)
@@ -324,14 +323,14 @@ public class CrazyChatsPlayerListener implements Listener
 		targets.add(player);
 		if (!(channel instanceof PrivateChannel) || plugin.isPrivateChatSpyingEnabled())
 			for (final Player online : Bukkit.getOnlinePlayers())
-				if (PermissionModule.hasPermission(online, "crazychats.chatspy"))
-					if (!plugin.getAvailablePlayerData(online).isMuted(player) || PermissionModule.hasPermission(player, "crazychats.unmutable"))
+				if (online.hasPermission("crazychats.chatspy"))
+					if (!plugin.getAvailablePlayerData(online).isMuted(player) || player.hasPermission("crazychats.unmutable"))
 						targets.add(online);
-		if (plugin.isCleaningRepetitionsEnabled() && !PermissionModule.hasPermission(player, "crazychats.nocleaning"))
+		if (plugin.isCleaningRepetitionsEnabled() && !player.hasPermission("crazychats.nocleaning"))
 			message = CrazyChatsChatHelper.cleanRepetitions(message);
-		if (plugin.isCleaningCapsEnabled() && !PermissionModule.hasPermission(player, "crazychats.nocleaning"))
+		if (plugin.isCleaningCapsEnabled() && !player.hasPermission("crazychats.nocleaning"))
 			message = CrazyChatsChatHelper.cleanCaps(message);
-		if (PermissionModule.hasPermission(player, "crazychats.coloredchat"))
+		if (player.hasPermission("crazychats.coloredchat"))
 			message = ChatHelper.colorise(message);
 		return new ChatResult(channel.getFormat(player), targets, message);
 	}

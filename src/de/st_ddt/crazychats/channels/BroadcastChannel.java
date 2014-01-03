@@ -6,7 +6,6 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.source.Permission;
 
 public class BroadcastChannel extends AbstractChannel
@@ -24,7 +23,7 @@ public class BroadcastChannel extends AbstractChannel
 	@Permission("crazychats.broadcastchannel.talk")
 	public boolean hasTalkPermission(final Player player)
 	{
-		return PermissionModule.hasPermission(player, "crazychats.broadcastchannel.talk");
+		return player.hasPermission("crazychats.broadcastchannel.talk");
 	}
 
 	@Override

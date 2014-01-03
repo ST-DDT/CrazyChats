@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.source.Permission;
 
 public class WorldChannel extends AbstractMuteableChannel
@@ -33,7 +32,7 @@ public class WorldChannel extends AbstractMuteableChannel
 	@Permission({ "crazychats.worldchannels.talk", "crazychats.worldchannel.<WORLDNAME>.talk", "crazychats.worldchannels.remotetalk", "crazychats.worldchannel.<WORLDNAME>.remotetalk" })
 	public boolean hasTalkPermission(final Player player)
 	{
-		return (world == player.getWorld() && (PermissionModule.hasPermission(player, "crazychats.worldchannels.talk") || PermissionModule.hasPermission(player, "crazychats.worldchannel." + name + ".talk"))) || PermissionModule.hasPermission(player, "crazychats.worldchannels.remotetalk") || PermissionModule.hasPermission(player, "crazychats.worldchannel." + name + ".remotetalk");
+		return (world == player.getWorld() && (player.hasPermission("crazychats.worldchannels.talk") || player.hasPermission("crazychats.worldchannel." + name + ".talk"))) || player.hasPermission("crazychats.worldchannels.remotetalk") || player.hasPermission("crazychats.worldchannel." + name + ".remotetalk");
 	}
 
 	@Override

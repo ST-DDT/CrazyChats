@@ -11,7 +11,6 @@ import de.st_ddt.crazychats.data.ChatPlayerData;
 import de.st_ddt.crazyplugin.exceptions.CrazyCommandUsageException;
 import de.st_ddt.crazyplugin.exceptions.CrazyException;
 import de.st_ddt.crazyutil.ChatHelperExtended;
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.paramitrisable.OfflinePlayerParamitrisable;
 import de.st_ddt.crazyutil.paramitrisable.PlayerDataParamitrisable;
 import de.st_ddt.crazyutil.paramitrisable.TabbedParamitrisable;
@@ -63,6 +62,6 @@ public class CommandPlayerMute extends CommandExecutor
 	@Permission("crazychats.player.mute")
 	public boolean hasAccessPermission(final CommandSender sender)
 	{
-		return PermissionModule.hasPermission(sender, "crazychats.player.mute");
+		return sender.hasPermission("crazychats.player.mute");
 	}
 }

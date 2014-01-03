@@ -6,7 +6,6 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.source.Permission;
 
 public class AdminChannel extends AbstractMuteableChannel
@@ -23,7 +22,7 @@ public class AdminChannel extends AbstractMuteableChannel
 	@Permission("crazychats.adminchannel.talk")
 	public boolean hasTalkPermission(final Player player)
 	{
-		return PermissionModule.hasPermission(player, "crazychats.adminchannel.talk");
+		return player.hasPermission("crazychats.adminchannel.talk");
 	}
 
 	@Override
@@ -32,7 +31,7 @@ public class AdminChannel extends AbstractMuteableChannel
 	{
 		final Set<Player> players = new HashSet<Player>();
 		for (final Player online : Bukkit.getOnlinePlayers())
-			if (PermissionModule.hasPermission(online, "crazychats.adminchannel.listen"))
+			if (online.hasPermission("crazychats.adminchannel.listen"))
 				players.add(online);
 		players.removeAll(deafPlayers);
 		return players;

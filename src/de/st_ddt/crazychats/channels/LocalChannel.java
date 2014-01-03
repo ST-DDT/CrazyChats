@@ -9,7 +9,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import de.st_ddt.crazychats.CrazyChats;
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.source.Permission;
 
 public final class LocalChannel extends AbstractMuteableChannel
@@ -30,7 +29,7 @@ public final class LocalChannel extends AbstractMuteableChannel
 	@Permission("crazychats.localchannel.talk")
 	public boolean hasTalkPermission(final Player player)
 	{
-		return enabled && PermissionModule.hasPermission(player, "crazychats.localchannel.talk");
+		return enabled && player.hasPermission("crazychats.localchannel.talk");
 	}
 
 	@Override

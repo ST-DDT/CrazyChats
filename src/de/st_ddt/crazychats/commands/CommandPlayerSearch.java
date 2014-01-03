@@ -15,7 +15,6 @@ import de.st_ddt.crazychats.data.ChatPlayerData;
 import de.st_ddt.crazyplugin.exceptions.CrazyCommandUsageException;
 import de.st_ddt.crazyplugin.exceptions.CrazyException;
 import de.st_ddt.crazyutil.ChatHelper;
-import de.st_ddt.crazyutil.modules.permissions.PermissionModule;
 import de.st_ddt.crazyutil.source.Localized;
 import de.st_ddt.crazyutil.source.Permission;
 
@@ -58,6 +57,6 @@ public class CommandPlayerSearch extends CommandExecutor
 	@Permission("crazychats.player.search")
 	public boolean hasAccessPermission(final CommandSender sender)
 	{
-		return PermissionModule.hasPermission(sender, "crazychats.player.search");
+		return sender.hasPermission("crazychats.player.search");
 	}
 }
