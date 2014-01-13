@@ -175,7 +175,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 				return new ListFormat()
 				{
 
-					CrazyLocale locale = plugin.getLocale().getLanguageEntry("COMMAND.CUSTOMCHANNEL.MEMBERS");
+					CrazyLocale locale = owner.getLocale().getLanguageEntry("COMMAND.CUSTOMCHANNEL.MEMBERS");
 
 					@Override
 					@Localized("CRAZYCHATS.COMMAND.CUSTOMCHANNEL.MEMBERS.LISTFORMAT $Index$ $Entry$ $ChatHeader$")
@@ -241,7 +241,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 				return new ListFormat()
 				{
 
-					CrazyLocale locale = plugin.getLocale().getLanguageEntry("COMMAND.CUSTOMCHANNEL.TALKPLAYERS");
+					CrazyLocale locale = owner.getLocale().getLanguageEntry("COMMAND.CUSTOMCHANNEL.TALKPLAYERS");
 
 					@Override
 					@Localized("CRAZYCHATS.COMMAND.CUSTOMCHANNEL.TALKPLAYERS.LISTFORMAT $Index$ $Entry$ $ChatHeader$")
@@ -307,7 +307,7 @@ public class CustomChannel extends AbstractMuteableChannel implements Controlled
 				return new ListFormat()
 				{
 
-					CrazyLocale locale = plugin.getLocale().getLanguageEntry("COMMAND.CUSTOMCHANNEL.INVITEDPLAYERS");
+					CrazyLocale locale = owner.getLocale().getLanguageEntry("COMMAND.CUSTOMCHANNEL.INVITEDPLAYERS");
 
 					@Override
 					@Localized("CRAZYCHATS.COMMAND.CUSTOMCHANNEL.INVITEDPLAYERS.LISTFORMAT $Index$ $Entry$ $ChatHeader$")
