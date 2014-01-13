@@ -30,7 +30,7 @@ public class CommandPlayerUnmute extends CommandExecutor
 	public void command(final CommandSender sender, final String[] args) throws CrazyException
 	{
 		final Map<String, TabbedParamitrisable> params = new TreeMap<String, TabbedParamitrisable>();
-		final PlayerDataParamitrisable<ChatPlayerData> playerData = new PlayerDataParamitrisable<ChatPlayerData>(plugin);
+		final PlayerDataParamitrisable<ChatPlayerData> playerData = new PlayerDataParamitrisable<ChatPlayerData>(owner);
 		params.put("p", playerData);
 		params.put("player", playerData);
 		final OfflinePlayerParamitrisable muted = new OfflinePlayerParamitrisable(null);
@@ -41,15 +41,15 @@ public class CommandPlayerUnmute extends CommandExecutor
 		if (data == null || muted.getValue() == null)
 			throw new CrazyCommandUsageException("<player:Player> <unmuted:Player>");
 		data.unmute(muted.getValue());
-		plugin.sendLocaleMessage("COMMAND.PLAYER.UNMUTED", sender, data.getName(), muted.getValue().getName());
-		plugin.getCrazyDatabase().save(data);
+		owner.sendLocaleMessage("COMMAND.PLAYER.UNMUTED", sender, data.getName(), muted.getValue().getName());
+		owner.getCrazyDatabase().save(data);
 	}
 
 	@Override
 	public List<String> tab(final CommandSender sender, final String[] args)
 	{
 		final Map<String, TabbedParamitrisable> params = new TreeMap<String, TabbedParamitrisable>();
-		final PlayerDataParamitrisable<ChatPlayerData> playerData = new PlayerDataParamitrisable<ChatPlayerData>(plugin);
+		final PlayerDataParamitrisable<ChatPlayerData> playerData = new PlayerDataParamitrisable<ChatPlayerData>(owner);
 		params.put("p", playerData);
 		params.put("player", playerData);
 		final OfflinePlayerParamitrisable muted = new OfflinePlayerParamitrisable(null);

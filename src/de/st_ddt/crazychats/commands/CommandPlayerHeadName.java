@@ -34,7 +34,7 @@ public class CommandPlayerHeadName extends CommandExecutor
 		if (args.length < 1 || args.length > 2)
 			throw new CrazyCommandUsageException("<Player> [HeadName]");
 		final String name = args[0];
-		final ChatPlayerData data = plugin.getPlayerData(name);
+		final ChatPlayerData data = owner.getPlayerData(name);
 		if (data == null)
 			throw new CrazyCommandNoSuchException("Player", name);
 		final Player player = data.getPlayer();
@@ -44,16 +44,16 @@ public class CommandPlayerHeadName extends CommandExecutor
 		{
 			String headName = ChatHelper.colorise(args[1]);
 			if (headName.length() < 3 || headName.length() > 16)
-				plugin.sendLocaleMessage("COMMAND.PLAYER.HEADNAME.WARNLENGTH", sender, headName, headName.length());
+				owner.sendLocaleMessage("COMMAND.PLAYER.HEADNAME.WARNLENGTH", sender, headName, headName.length());
 			if (headName.length() > 16)
 				headName = headName.substring(0, 16);
 			data.setHeadName(headName);
-			plugin.sendLocaleMessage("COMMAND.PLAYER.HEADNAME.DONE", sender, data.getName(), headName);
+			owner.sendLocaleMessage("COMMAND.PLAYER.HEADNAME.DONE", sender, data.getName(), headName);
 		}
 		else
 		{
 			data.setHeadName(null);
-			plugin.sendLocaleMessage("COMMAND.PLAYER.HEADNAME.REMOVED", sender, data.getName());
+			owner.sendLocaleMessage("COMMAND.PLAYER.HEADNAME.REMOVED", sender, data.getName());
 		}
 		if (player != null)
 			if (player.isOnline())
@@ -65,7 +65,7 @@ public class CommandPlayerHeadName extends CommandExecutor
 				{
 					throw new CrazyCommandErrorException(e);
 				}
-		plugin.getCrazyDatabase().save(data);
+		owner.getCrazyDatabase().save(data);
 	}
 
 	@Override

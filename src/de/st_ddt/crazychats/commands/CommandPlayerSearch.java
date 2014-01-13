@@ -41,7 +41,7 @@ public class CommandPlayerSearch extends CommandExecutor
 				names.add(player.getName() + " (" + player.getDisplayName() + ")");
 			else if (pattern.matcher(ChatColor.stripColor(player.getPlayerListName())).find())
 				names.add(player.getName() + " (" + player.getPlayerListName() + ")");
-		for (final ChatPlayerData data : plugin.getPlayerData())
+		for (final ChatPlayerData data : owner.getPlayerData())
 			if (pattern.matcher(data.getName()).find())
 				names.add(data.getName());
 			else if (data.getDisplayName() != null && pattern.matcher(ChatColor.stripColor(data.getDisplayName())).find())
@@ -50,7 +50,7 @@ public class CommandPlayerSearch extends CommandExecutor
 				names.add(data.getName() + " (" + data.getListName() + ")");
 			else if (data.getHeadName() != null && pattern.matcher(ChatColor.stripColor(data.getHeadName())).find())
 				names.add(data.getName() + " (" + data.getHeadName() + ")");
-		plugin.sendLocaleList(sender, "COMMAND.PLAYER.SEARCH", -1, -1, new ArrayList<String>(names));
+		owner.sendLocaleList(sender, "COMMAND.PLAYER.SEARCH", -1, -1, new ArrayList<String>(names));
 	}
 
 	@Override

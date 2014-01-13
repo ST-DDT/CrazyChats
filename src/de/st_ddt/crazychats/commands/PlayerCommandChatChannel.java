@@ -29,15 +29,15 @@ public class PlayerCommandChatChannel extends PlayerCommandExecutor
 	{
 		if (args.length > 1)
 			throw new CrazyCommandUsageException("[Channel]");
-		final ChatPlayerData data = plugin.getPlayerData(player);
+		final ChatPlayerData data = owner.getPlayerData(player);
 		final Map<String, ChannelInterface> channels = data.getChannelMap();
 		if (args.length == 0)
 		{
 			if (data.getCurrentChannel() == null)
-				plugin.sendLocaleMessage("CHANNEL.CURRENT", player, "NONE");
+				owner.sendLocaleMessage("CHANNEL.CURRENT", player, "NONE");
 			else
-				plugin.sendLocaleMessage("CHANNEL.CURRENT", player, data.getCurrentChannel().getName());
-			plugin.sendLocaleList(player, "COMMAND.CHANNELS.LIST.HEADER", "COMMAND.CHANNELS.LIST.LISTFORMAT", null, -1, -1, new ArrayList<String>(channels.keySet()));
+				owner.sendLocaleMessage("CHANNEL.CURRENT", player, data.getCurrentChannel().getName());
+			owner.sendLocaleList(player, "COMMAND.CHANNELS.LIST.HEADER", "COMMAND.CHANNELS.LIST.LISTFORMAT", null, -1, -1, new ArrayList<String>(channels.keySet()));
 		}
 		else
 		{
@@ -45,7 +45,7 @@ public class PlayerCommandChatChannel extends PlayerCommandExecutor
 			if (channel == null)
 				throw new CrazyCommandNoSuchException("Channel", args[0], channels.keySet());
 			data.setCurrentChannel(channel);
-			plugin.sendLocaleMessage("CHANNEL.CHANGED", player, channel.getName());
+			owner.sendLocaleMessage("CHANNEL.CHANGED", player, channel.getName());
 		}
 	}
 
@@ -54,6 +54,6 @@ public class PlayerCommandChatChannel extends PlayerCommandExecutor
 	{
 		if (args.length != 1)
 			return null;
-		return MapParamitrisable.tabHelp(plugin.getPlayerData(player).getChannelMap(), args[0].toLowerCase());
+		return MapParamitrisable.tabHelp(owner.getPlayerData(player).getChannelMap(), args[0].toLowerCase());
 	}
 }

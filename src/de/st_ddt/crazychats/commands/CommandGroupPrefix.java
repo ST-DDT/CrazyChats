@@ -26,15 +26,15 @@ public class CommandGroupPrefix extends CommandExecutor
 	{
 		if (args.length == 1)
 		{
-			plugin.getGroupPrefixes().remove(args[0]);
-			plugin.sendLocaleMessage("COMMAND.GROUP.PREFIX.DELETED", sender, args[0]);
-			plugin.saveConfiguration();
+			owner.getGroupPrefixes().remove(args[0]);
+			owner.sendLocaleMessage("COMMAND.GROUP.PREFIX.DELETED", sender, args[0]);
+			owner.saveConfiguration();
 		}
 		else if (args.length == 2)
 		{
-			plugin.getGroupPrefixes().put(args[0], ChatHelper.colorise(args[1]));
-			plugin.sendLocaleMessage("COMMAND.GROUP.PREFIX.SET", sender, args[0], ChatHelper.colorise(args[1]) + sender.getName());
-			plugin.saveConfiguration();
+			owner.getGroupPrefixes().put(args[0], ChatHelper.colorise(args[1]));
+			owner.sendLocaleMessage("COMMAND.GROUP.PREFIX.SET", sender, args[0], ChatHelper.colorise(args[1]) + sender.getName());
+			owner.saveConfiguration();
 		}
 		else
 			throw new CrazyCommandUsageException("<Group> [Prefix]");
@@ -47,7 +47,7 @@ public class CommandGroupPrefix extends CommandExecutor
 			return null;
 		final String name = args[0].toLowerCase();
 		final List<String> res = new LinkedList<String>();
-		for (final String group : plugin.getGroupPrefixes().keySet())
+		for (final String group : owner.getGroupPrefixes().keySet())
 			if (group.toLowerCase().startsWith(name))
 				res.add(group);
 		return res;

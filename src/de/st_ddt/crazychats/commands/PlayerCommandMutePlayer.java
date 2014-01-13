@@ -22,12 +22,12 @@ public class PlayerCommandMutePlayer extends PlayerCommandExecutor
 	{
 		if (args.length == 0)
 			throw new CrazyCommandUsageException("<Player...>");
-		final ChatPlayerData data = plugin.getPlayerData(player);
+		final ChatPlayerData data = owner.getPlayerData(player);
 		for (final String arg : args)
 		{
 			data.mute(arg);
-			plugin.sendLocaleMessage("COMMAND.MUTEDPLAYER", player, arg);
+			owner.sendLocaleMessage("COMMAND.MUTEDPLAYER", player, arg);
 		}
-		plugin.getCrazyDatabase().save(data);
+		owner.getCrazyDatabase().save(data);
 	}
 }

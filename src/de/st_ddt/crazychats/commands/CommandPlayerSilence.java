@@ -11,10 +11,10 @@ import org.bukkit.entity.Player;
 
 import de.st_ddt.crazychats.CrazyChats;
 import de.st_ddt.crazychats.data.ChatPlayerData;
-import de.st_ddt.crazyplugin.CrazyLightPluginInterface;
 import de.st_ddt.crazyplugin.exceptions.CrazyCommandPermissionException;
 import de.st_ddt.crazyplugin.exceptions.CrazyCommandUsageException;
 import de.st_ddt.crazyplugin.exceptions.CrazyException;
+import de.st_ddt.crazyutil.ChatHeaderProvider;
 import de.st_ddt.crazyutil.ChatHelperExtended;
 import de.st_ddt.crazyutil.paramitrisable.BooleanParamitrisable;
 import de.st_ddt.crazyutil.paramitrisable.PlayerDataParamitrisable;
@@ -38,7 +38,7 @@ public class CommandPlayerSilence extends CommandExecutor
 	public void command(final CommandSender sender, final String[] args) throws CrazyException
 	{
 		final Map<String, TabbedParamitrisable> params = new TreeMap<String, TabbedParamitrisable>();
-		final PlayerDataParamitrisable<ChatPlayerData> playerData = new PlayerDataParamitrisable<ChatPlayerData>(plugin);
+		final PlayerDataParamitrisable<ChatPlayerData> playerData = new PlayerDataParamitrisable<ChatPlayerData>(owner);
 		params.put("p", playerData);
 		params.put("player", playerData);
 		final TargetDateParamitrisable until = new TargetDateParamitrisable(60000);
@@ -62,27 +62,27 @@ public class CommandPlayerSilence extends CommandExecutor
 				throw new CrazyCommandPermissionException();
 		final Date date = until.getValue();
 		if (!admin.getValue())
-			date.setTime(Math.min(date.getTime(), System.currentTimeMillis() + plugin.getMaxSilenceTime()));
+			date.setTime(Math.min(date.getTime(), System.currentTimeMillis() + owner.getMaxSilenceTime()));
 		data.setSilenced(date);
-		plugin.sendLocaleMessage("COMMAND.PLAYER.SILENCED.DONE", sender, data.getName(), CrazyLightPluginInterface.DATETIMEFORMAT.format(date));
+		owner.sendLocaleMessage("COMMAND.PLAYER.SILENCED.DONE", sender, data.getName(), ChatHeaderProvider.DATETIMEFORMAT.format(date));
 		if (!quiet.getValue())
 		{
 			final Player player = data.getPlayer();
 			if (player != null)
 				if (player.isOnline())
 					if (reason.getValue() == null)
-						plugin.sendLocaleMessage("COMMAND.PLAYER.SILENCED.MESSAGE", player, sender.getName(), CrazyLightPluginInterface.DATETIMEFORMAT.format(date));
+						owner.sendLocaleMessage("COMMAND.PLAYER.SILENCED.MESSAGE", player, sender.getName(), ChatHeaderProvider.DATETIMEFORMAT.format(date));
 					else
-						plugin.sendLocaleMessage("COMMAND.PLAYER.SILENCED.MESSAGE2", player, sender.getName(), CrazyLightPluginInterface.DATETIMEFORMAT.format(date), reason.getValue());
+						owner.sendLocaleMessage("COMMAND.PLAYER.SILENCED.MESSAGE2", player, sender.getName(), ChatHeaderProvider.DATETIMEFORMAT.format(date), reason.getValue());
 		}
-		plugin.getCrazyDatabase().save(data);
+		owner.getCrazyDatabase().save(data);
 	}
 
 	@Override
 	public List<String> tab(final CommandSender sender, final String[] args)
 	{
 		final Map<String, TabbedParamitrisable> params = new HashMap<String, TabbedParamitrisable>();
-		final PlayerDataParamitrisable<ChatPlayerData> playerData = new PlayerDataParamitrisable<ChatPlayerData>(plugin);
+		final PlayerDataParamitrisable<ChatPlayerData> playerData = new PlayerDataParamitrisable<ChatPlayerData>(owner);
 		params.put("p", playerData);
 		params.put("player", playerData);
 		final TargetDateParamitrisable until = new TargetDateParamitrisable(60000);

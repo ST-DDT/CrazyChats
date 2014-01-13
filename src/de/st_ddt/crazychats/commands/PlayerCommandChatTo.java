@@ -30,7 +30,7 @@ public class PlayerCommandChatTo extends PlayerCommandExecutor
 	@Localized({ "CRAZYCHATS.COMMAND.CHANNEL.PRIVATE.TARGET.LIST.HEADER $CurrentPage$ $MaxPage$ $ChatHeader$ $DateTime$", "CRAZYCHATS.COMMAND.CHANNEL.PRIVATE.TARGET.LIST.LISTFORMAT $Index$ $Entry$ $ChatHeader$", "CRAZYCHATS.CHANNEL.CHANGED $Channel$", "CRAZYCHATS.COMMAND.CHANNEL.PRIVATE.TARGET.SET $Targets$" })
 	public void command(final Player player, final String[] args) throws CrazyException
 	{
-		final ChatPlayerData data = plugin.getPlayerData(player);
+		final ChatPlayerData data = owner.getPlayerData(player);
 		final PrivateChannel channel = data.getPrivateChannel();
 		final Set<Player> targets = channel.getTargets(null);
 		if (args.length == 0)
@@ -42,7 +42,7 @@ public class PlayerCommandChatTo extends PlayerCommandExecutor
 					targetList.add(target.getName());
 			}
 			Collections.sort(targetList);
-			plugin.sendLocaleList(player, "COMMAND.CHANNEL.PRIVATE.TARGET.LIST.HEADER", "COMMAND.CHANNEL.PRIVATE.TARGET.LIST.LISTFORMAT", null, -1, -1, targetList);
+			owner.sendLocaleList(player, "COMMAND.CHANNEL.PRIVATE.TARGET.LIST.HEADER", "COMMAND.CHANNEL.PRIVATE.TARGET.LIST.LISTFORMAT", null, -1, -1, targetList);
 		}
 		else
 		{
@@ -57,11 +57,11 @@ public class PlayerCommandChatTo extends PlayerCommandExecutor
 			if (data.getCurrentChannel() != channel)
 			{
 				data.setCurrentChannel(channel);
-				plugin.sendLocaleMessage("CHANNEL.CHANGED", player, channel.getName());
+				owner.sendLocaleMessage("CHANNEL.CHANGED", player, channel.getName());
 			}
 			targets.clear();
 			targets.addAll(targetList);
-			plugin.sendLocaleMessage("COMMAND.CHANNEL.PRIVATE.TARGET.SET", player, ChatHelper.listingString(OfflinePlayerParamitrisable.getPlayerNames(targetList)));
+			owner.sendLocaleMessage("COMMAND.CHANNEL.PRIVATE.TARGET.SET", player, ChatHelper.listingString(OfflinePlayerParamitrisable.getPlayerNames(targetList)));
 		}
 	}
 

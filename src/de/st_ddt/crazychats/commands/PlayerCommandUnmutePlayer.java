@@ -25,19 +25,19 @@ public class PlayerCommandUnmutePlayer extends PlayerCommandExecutor
 	{
 		if (args.length == 0)
 			throw new CrazyCommandUsageException("<Player...>");
-		final ChatPlayerData data = plugin.getPlayerData(player);
+		final ChatPlayerData data = owner.getPlayerData(player);
 		if (args.length == 1)
 			if (args[0].equals("*"))
 			{
 				data.getMutedPlayers().clear();
-				plugin.sendLocaleMessage("COMMAND.UNMUTEDPLAYER", player, "*ALL*");
+				owner.sendLocaleMessage("COMMAND.UNMUTEDPLAYER", player, "*ALL*");
 			}
 		for (final String arg : args)
 		{
 			data.unmute(arg);
-			plugin.sendLocaleMessage("COMMAND.UNMUTEDPLAYER", player, arg);
+			owner.sendLocaleMessage("COMMAND.UNMUTEDPLAYER", player, arg);
 		}
-		plugin.getCrazyDatabase().save(data);
+		owner.getCrazyDatabase().save(data);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class PlayerCommandUnmutePlayer extends PlayerCommandExecutor
 	{
 		final String last = args[args.length - 1].toLowerCase();
 		final List<String> res = new LinkedList<String>();
-		for (final String name : plugin.getPlayerData(player).getMutedPlayers())
+		for (final String name : owner.getPlayerData(player).getMutedPlayers())
 			if (name.toLowerCase().startsWith(last))
 				res.add(name);
 		return res;

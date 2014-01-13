@@ -28,7 +28,7 @@ public class PlayerCommandUnmuteChannel extends PlayerCommandExecutor
 	{
 		if (args.length == 0)
 			throw new CrazyCommandUsageException("<Channel...>");
-		final ChatPlayerData data = plugin.getPlayerData(player);
+		final ChatPlayerData data = owner.getPlayerData(player);
 		if (args.length == 1)
 			if (args[0].equals("*"))
 			{
@@ -39,7 +39,7 @@ public class PlayerCommandUnmuteChannel extends PlayerCommandExecutor
 						if (channel instanceof MuteableChannelInterface)
 							((MuteableChannelInterface) channel).unmuteChannel(player);
 				}
-				plugin.sendLocaleMessage("COMMAND.UNMUTEDCHANNEL", player, "ALL");
+				owner.sendLocaleMessage("COMMAND.UNMUTEDCHANNEL", player, "ALL");
 				return;
 			}
 		final Map<String, ChannelInterface> channels = data.getChannelMap();
@@ -49,7 +49,7 @@ public class PlayerCommandUnmuteChannel extends PlayerCommandExecutor
 			if (channel instanceof MuteableChannelInterface)
 			{
 				((MuteableChannelInterface) channel).unmuteChannel(player);
-				plugin.sendLocaleMessage("COMMAND.UNMUTEDCHANNEL", player, channel.getName());
+				owner.sendLocaleMessage("COMMAND.UNMUTEDCHANNEL", player, channel.getName());
 			}
 			else
 				throw new CrazyCommandNoSuchException("Channel", arg, channels.keySet());

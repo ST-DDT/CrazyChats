@@ -30,7 +30,7 @@ public class PlayerCommandMuteChannel extends PlayerCommandExecutor
 	{
 		if (args.length == 0)
 			throw new CrazyCommandUsageException("<Channel...>");
-		final ChatPlayerData data = plugin.getPlayerData(player);
+		final ChatPlayerData data = owner.getPlayerData(player);
 		if (args.length == 1)
 			if (args[0].equals("*"))
 			{
@@ -41,7 +41,7 @@ public class PlayerCommandMuteChannel extends PlayerCommandExecutor
 						if (channel instanceof MuteableChannelInterface)
 							((MuteableChannelInterface) channel).muteChannel(player);
 				}
-				plugin.sendLocaleMessage("COMMAND.MUTEDCHANNEL", player, "*ALL*");
+				owner.sendLocaleMessage("COMMAND.MUTEDCHANNEL", player, "*ALL*");
 				return;
 			}
 		final Map<String, ChannelInterface> channels = data.getChannelMap();
@@ -51,7 +51,7 @@ public class PlayerCommandMuteChannel extends PlayerCommandExecutor
 			if (channel instanceof MuteableChannelInterface)
 			{
 				((MuteableChannelInterface) channel).muteChannel(player);
-				plugin.sendLocaleMessage("COMMAND.MUTEDCHANNEL", player, channel.getName());
+				owner.sendLocaleMessage("COMMAND.MUTEDCHANNEL", player, channel.getName());
 			}
 			else
 				throw new CrazyCommandNoSuchException("Channel", arg, channels.keySet());
@@ -63,7 +63,7 @@ public class PlayerCommandMuteChannel extends PlayerCommandExecutor
 	{
 		final String last = args[args.length - 1].toLowerCase();
 		final List<String> res = new LinkedList<String>();
-		for (final String channel : plugin.getPlayerData(player).getChannelMap().keySet())
+		for (final String channel : owner.getPlayerData(player).getChannelMap().keySet())
 			if (channel.toLowerCase().startsWith(last))
 				res.add(channel);
 		return res;

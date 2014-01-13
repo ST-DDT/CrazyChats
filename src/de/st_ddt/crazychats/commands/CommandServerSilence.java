@@ -8,8 +8,8 @@ import java.util.TreeMap;
 import org.bukkit.command.CommandSender;
 
 import de.st_ddt.crazychats.CrazyChats;
-import de.st_ddt.crazyplugin.CrazyLightPluginInterface;
 import de.st_ddt.crazyplugin.exceptions.CrazyException;
+import de.st_ddt.crazyutil.ChatHeaderProvider;
 import de.st_ddt.crazyutil.ChatHelperExtended;
 import de.st_ddt.crazyutil.Tabbed;
 import de.st_ddt.crazyutil.paramitrisable.Paramitrisable;
@@ -34,8 +34,8 @@ public class CommandServerSilence extends CommandExecutor
 		params.put("u", until);
 		params.put("until", until);
 		ChatHelperExtended.readParameters(args, params, until);
-		plugin.setServerSilenced(until.getValue());
-		plugin.sendLocaleMessage("COMMAND.SERVERSILENCED", sender, CrazyLightPluginInterface.DATETIMEFORMAT.format(until.getValue()));
+		owner.setServerSilenced(until.getValue());
+		owner.sendLocaleMessage("COMMAND.SERVERSILENCED", sender, ChatHeaderProvider.DATETIMEFORMAT.format(until.getValue()));
 	}
 
 	@Override

@@ -41,22 +41,22 @@ public class CommandTell extends CommandExecutor
 				target = Bukkit.getPlayer(args[0]);
 			if (target == null)
 				throw new CrazyCommandNoSuchException("Player", args[0]);
-			final String message = ChatHelper.colorise(String.format(CrazyChatsChatHelper.applyFormat(plugin, sender, plugin.getPrivateChatFormat()), plugin.getConsoleDisplayName(), ChatHelper.listingString(" ", ChatHelperExtended.shiftArray(args, 1))));
+			final String message = ChatHelper.colorise(String.format(CrazyChatsChatHelper.applyFormat(owner, sender, owner.getPrivateChatFormat()), owner.getConsoleDisplayName(), ChatHelper.listingString(" ", ChatHelperExtended.shiftArray(args, 1))));
 			target.sendMessage(message);
 			sender.sendMessage(message);
-			plugin.getCrazyLogger().log("Chat", "[Private] CONSOLE >>> " + message);
+			owner.getCrazyLogger().log("Chat", "[Private] CONSOLE >>> " + message);
 		}
 	}
 
 	@Localized("CRAZYCHATS.CHANNEL.CHANGED $Channel$")
 	public void command(final Player player, final String[] args) throws CrazyException
 	{
-		final ChatPlayerData data = plugin.getPlayerData(player);
+		final ChatPlayerData data = owner.getPlayerData(player);
 		final PrivateChannel channel = data.getPrivateChannel();
 		if (data.getCurrentChannel() != channel)
 		{
 			data.setCurrentChannel(channel);
-			plugin.sendLocaleMessage("CHANNEL.CHANGED", player, channel.getName());
+			owner.sendLocaleMessage("CHANNEL.CHANGED", player, channel.getName());
 		}
 		final Player target = Bukkit.getPlayer(args[0]);
 		if (target == null || !player.canSee(target))

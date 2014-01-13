@@ -23,7 +23,7 @@ public class PlayerCommandMuteAll extends PlayerCommandExecutor
 	@Localized("CRAZYCHATS.COMMAND.MUTEDCHANNEL $Name$")
 	public void command(final Player player, final String[] args) throws CrazyException
 	{
-		final ChatPlayerData data = plugin.getPlayerData(player);
+		final ChatPlayerData data = owner.getPlayerData(player);
 		final Set<ChannelInterface> channels = data.getAccessibleChannels();
 		synchronized (channels)
 		{
@@ -31,6 +31,6 @@ public class PlayerCommandMuteAll extends PlayerCommandExecutor
 				if (channel instanceof MuteableChannelInterface)
 					((MuteableChannelInterface) channel).muteChannel(player);
 		}
-		plugin.sendLocaleMessage("COMMAND.MUTEDCHANNEL", player, "*ALL*");
+		owner.sendLocaleMessage("COMMAND.MUTEDCHANNEL", player, "*ALL*");
 	}
 }

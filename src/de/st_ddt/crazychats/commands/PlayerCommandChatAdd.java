@@ -30,7 +30,7 @@ public class PlayerCommandChatAdd extends PlayerCommandExecutor
 	@Localized({ "CRAZYCHATS.CHANNEL.CHANGED $Channel$", "CRAZYCHATS.COMMAND.CHANNEL.PRIVATE.TARGET.ADDED $Players$" })
 	public void command(final Player player, final String[] args) throws CrazyException
 	{
-		final ChatPlayerData data = plugin.getPlayerData(player);
+		final ChatPlayerData data = owner.getPlayerData(player);
 		final PrivateChannel channel = data.getPrivateChannel();
 		final Set<Player> targets = channel.getTargets(null);
 		if (args.length == 0)
@@ -49,9 +49,9 @@ public class PlayerCommandChatAdd extends PlayerCommandExecutor
 			if (data.getCurrentChannel() != channel)
 			{
 				data.setCurrentChannel(channel);
-				plugin.sendLocaleMessage("CHANNEL.CHANGED", player, channel.getName());
+				owner.sendLocaleMessage("CHANNEL.CHANGED", player, channel.getName());
 			}
-			plugin.sendLocaleMessage("COMMAND.CHANNEL.PRIVATE.TARGET.ADDED", player, ChatHelper.listingString(OfflinePlayerParamitrisable.getPlayerNames(targetList)));
+			owner.sendLocaleMessage("COMMAND.CHANNEL.PRIVATE.TARGET.ADDED", player, ChatHelper.listingString(OfflinePlayerParamitrisable.getPlayerNames(targetList)));
 		}
 	}
 

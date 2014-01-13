@@ -34,25 +34,25 @@ public class CommandSay extends CommandExecutor
 			command((Player) sender, args);
 		else
 		{
-			final String message = ChatHelper.colorise(String.format(CrazyChatsChatHelper.applyFormat(plugin, sender, plugin.getBroadcastChatFormat()), plugin.getConsoleDisplayName(), ChatHelper.listingString(" ", args)));
+			final String message = ChatHelper.colorise(String.format(CrazyChatsChatHelper.applyFormat(owner, sender, owner.getBroadcastChatFormat()), owner.getConsoleDisplayName(), ChatHelper.listingString(" ", args)));
 			for (final Player target : Bukkit.getOnlinePlayers())
 				target.sendMessage(message);
 			sender.sendMessage(message);
-			plugin.getCrazyLogger().log("Chat", "[Broadcast] CONSOLE >>> " + message);
+			owner.getCrazyLogger().log("Chat", "[Broadcast] CONSOLE >>> " + message);
 		}
 	}
 
 	@Localized("CRAZYCHATS.CHANNEL.CHANGED $Channel$")
 	public void command(final Player player, final String[] args) throws CrazyException
 	{
-		final BroadcastChannel channel = plugin.getBroadcastChannel();
+		final BroadcastChannel channel = owner.getBroadcastChannel();
 		if (!channel.hasTalkPermission(player))
 			throw new CrazyCommandPermissionException();
-		final ChatPlayerData data = plugin.getPlayerData(player);
+		final ChatPlayerData data = owner.getPlayerData(player);
 		if (data.getCurrentChannel() != channel)
 		{
 			data.setCurrentChannel(channel);
-			plugin.sendLocaleMessage("CHANNEL.CHANGED", player, channel.getName());
+			owner.sendLocaleMessage("CHANNEL.CHANGED", player, channel.getName());
 		}
 		player.chat(ChatHelper.listingString(" ", args));
 	}

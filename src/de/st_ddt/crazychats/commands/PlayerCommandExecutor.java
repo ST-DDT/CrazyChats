@@ -14,6 +14,6 @@ abstract class PlayerCommandExecutor extends CrazyPlayerCommandExecutor<CrazyCha
 	@Override
 	public CrazyChats getPlugin()
 	{
-		return plugin;
+		return owner;
 	}
 }
