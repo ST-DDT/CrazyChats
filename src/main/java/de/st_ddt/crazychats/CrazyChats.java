@@ -27,39 +27,12 @@ import de.st_ddt.crazychats.channels.CustomChannel;
 import de.st_ddt.crazychats.channels.GlobalChannel;
 import de.st_ddt.crazychats.channels.LocalChannel;
 import de.st_ddt.crazychats.channels.WorldChannel;
-import de.st_ddt.crazychats.commands.CommandClearChat;
-import de.st_ddt.crazychats.commands.CommandColorHelp;
-import de.st_ddt.crazychats.commands.CommandGroupHeadnamePrefix;
-import de.st_ddt.crazychats.commands.CommandGroupListnamePrefix;
-import de.st_ddt.crazychats.commands.CommandGroupPrefix;
-import de.st_ddt.crazychats.commands.CommandGroupSuffix;
-import de.st_ddt.crazychats.commands.CommandPlayerDisplayName;
-import de.st_ddt.crazychats.commands.CommandPlayerHeadName;
-import de.st_ddt.crazychats.commands.CommandPlayerListName;
-import de.st_ddt.crazychats.commands.CommandPlayerMute;
-import de.st_ddt.crazychats.commands.CommandPlayerSearch;
-import de.st_ddt.crazychats.commands.CommandPlayerSilence;
-import de.st_ddt.crazychats.commands.CommandPlayerUnmute;
-import de.st_ddt.crazychats.commands.CommandSay;
-import de.st_ddt.crazychats.commands.CommandServerSilence;
-import de.st_ddt.crazychats.commands.CommandTell;
-import de.st_ddt.crazychats.commands.PlayerCommandAnswer;
-import de.st_ddt.crazychats.commands.PlayerCommandChatAdd;
-import de.st_ddt.crazychats.commands.PlayerCommandChatChannel;
-import de.st_ddt.crazychats.commands.PlayerCommandChatRemove;
-import de.st_ddt.crazychats.commands.PlayerCommandChatTo;
-import de.st_ddt.crazychats.commands.PlayerCommandMuteAll;
-import de.st_ddt.crazychats.commands.PlayerCommandMuteChannel;
-import de.st_ddt.crazychats.commands.PlayerCommandMutePlayer;
-import de.st_ddt.crazychats.commands.PlayerCommandUnmuteChannel;
-import de.st_ddt.crazychats.commands.PlayerCommandUnmutePlayer;
+import de.st_ddt.crazychats.commands.*;
 import de.st_ddt.crazychats.data.ChatPlayerData;
 import de.st_ddt.crazychats.databases.CrazyChatsConfigurationDatabase;
 import de.st_ddt.crazychats.listener.CrazyChatsCrazyListener;
 import de.st_ddt.crazychats.listener.CrazyChatsGameListener;
 import de.st_ddt.crazychats.listener.CrazyChatsPlayerListener;
-import de.st_ddt.crazychats.listener.CrazyChatsPlayerListener_125;
-import de.st_ddt.crazychats.listener.CrazyChatsPlayerListener_132;
 import de.st_ddt.crazychats.listener.CrazyChatsTagAPIListener;
 import de.st_ddt.crazyplugin.CrazyPlayerDataPlugin;
 import de.st_ddt.crazyplugin.commands.CrazyCommandTreeExecutor;
@@ -67,7 +40,6 @@ import de.st_ddt.crazyplugin.commands.CrazyPluginCommandMainMode;
 import de.st_ddt.crazyplugin.exceptions.CrazyException;
 import de.st_ddt.crazyutil.ChatHelper;
 import de.st_ddt.crazyutil.CrazyChatsChatHelper;
-import de.st_ddt.crazyutil.VersionComparator;
 import de.st_ddt.crazyutil.databases.DatabaseType;
 import de.st_ddt.crazyutil.modes.BooleanFalseMode;
 import de.st_ddt.crazyutil.modes.BooleanTrueMode;
@@ -489,11 +461,7 @@ public final class CrazyChats extends CrazyPlayerDataPlugin<ChatPlayerData, Chat
 
 	private void registerHooks()
 	{
-		final String mcVersion = ChatHelper.getMinecraftVersion();
-		if (VersionComparator.compareVersions(mcVersion, "1.2.5") == 1)
-			this.playerListener = new CrazyChatsPlayerListener_132(this);
-		else
-			this.playerListener = new CrazyChatsPlayerListener_125(this);
+		this.playerListener = new CrazyChatsPlayerListener(this);
 		final PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(playerListener, this);
 		pm.registerEvents(new CrazyChatsCrazyListener(this), this);

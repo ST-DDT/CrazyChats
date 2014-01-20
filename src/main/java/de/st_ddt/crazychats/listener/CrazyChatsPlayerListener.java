@@ -16,6 +16,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -30,8 +32,9 @@ import de.st_ddt.crazychats.channels.CustomChannel;
 import de.st_ddt.crazychats.channels.PrivateChannel;
 import de.st_ddt.crazychats.channels.WorldChannel;
 import de.st_ddt.crazychats.data.ChatPlayerData;
-import de.st_ddt.crazyplugin.CrazyLightPluginInterface;
+import de.st_ddt.crazyutil.ChatHeaderProvider;
 import de.st_ddt.crazyutil.ChatHelper;
+import de.st_ddt.crazyutil.ChatHelperExtended;
 import de.st_ddt.crazyutil.CrazyChatsChatHelper;
 import de.st_ddt.crazyutil.source.Localized;
 import de.st_ddt.crazyutil.source.Permission;
@@ -235,6 +238,42 @@ public class CrazyChatsPlayerListener implements Listener
 		}
 	}
 
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+	public void PlayerChat(final AsyncPlayerChatEvent event)
+	{
+		final ChatResult result = PlayerChat(event.getPlayer(), event.getMessage());
+		if (result.isCancelled())
+			event.setCancelled(true);
+		else
+		{
+			event.setFormat(result.getAdvancedFormat(event.getPlayer()));
+			event.setMessage(result.getMessage());
+			final Set<Player> targets = event.getRecipients();
+			try
+			{
+				targets.clear();
+				targets.addAll(result.getTargets());
+			}
+			catch (final UnsupportedOperationException e)
+			{}
+		}
+	}
+
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+	public void PlayerChatLog(final AsyncPlayerChatEvent event)
+	{
+		final Player player = event.getPlayer();
+		final String message = event.getMessage();
+		PlayerChatLog(player, message);
+		try
+		{
+			if (event.getRecipients().remove(player))
+				PlayerChatOwnerMessage(event.getFormat(), player, message);
+		}
+		catch (final UnsupportedOperationException e)
+		{}
+	}
+
 	@Permission({ "crazychats.talk", "crazychats.serversilence.bypass", "crazychats.unmutable", "crazychats.chatspy", "crazychats.nocleaning", "crazychats.coloredchat" })
 	@Localized({ "CRAZYCHATS.CHAT.BLOCKED.NOPERMISSION", "CRAZYCHATS.CHAT.BLOCKED.SILENCED $UntilDateTime$", "CRAZYCHATS.CHAT.BLOCKED.NOSUCHPLAYER $Player$", "CRAZYCHATS.CHANNEL.CHANGED $Channel$", "CRAZYCHATS.CHAT.BLOCKED.NOCHANNEL", "CRAZYCHATS.CHAT.BLOCKED.SERVERSILENCED" })
 	protected ChatResult PlayerChat(final Player player, String message)
@@ -247,7 +286,7 @@ public class CrazyChatsPlayerListener implements Listener
 		final ChatPlayerData data = plugin.getPlayerData(player);
 		if (data.isSilenced())
 		{
-			plugin.sendLocaleMessage("CHAT.BLOCKED.SILENCED", player, CrazyLightPluginInterface.DATETIMEFORMAT.format(data.getSilenced()));
+			plugin.sendLocaleMessage("CHAT.BLOCKED.SILENCED", player, ChatHeaderProvider.DATETIMEFORMAT.format(data.getSilenced()));
 			return CANCELLED;
 		}
 		ChannelInterface channel = data.getCurrentChannel();
@@ -333,6 +372,53 @@ public class CrazyChatsPlayerListener implements Listener
 		if (player.hasPermission("crazychats.coloredchat"))
 			message = ChatHelper.colorise(message);
 		return new ChatResult(channel.getFormat(player), targets, message);
+	}
+
+	@EventHandler
+	public void PlayerChatTab(final PlayerChatTabCompleteEvent event)
+	{
+		final String message = event.getChatMessage();
+		if (!message.startsWith("@"))
+			return;
+		if (message.contains(" "))
+			return;
+		final ChatPlayerData data = plugin.getPlayerData(event.getPlayer());
+		if (data == null)
+			return;
+		final Collection<String> completions = event.getTabCompletions();
+		if (message.equals("@"))
+		{
+			for (final Player player : Bukkit.getOnlinePlayers())
+				completions.add("@" + player.getName());
+			for (final String channel : data.getChannelMap().keySet())
+				completions.add("@" + channel);
+			return;
+		}
+		if (message.endsWith(","))
+		{
+			for (final Player player : Bukkit.getOnlinePlayers())
+				completions.add(message + player.getName());
+			return;
+		}
+		final String[] split = PATTERN_COMMA.split(message);
+		if (split.length == 1)
+		{
+			final String part = message.substring(1).toLowerCase();
+			for (final Player player : Bukkit.getOnlinePlayers())
+				if (player.getName().toLowerCase().startsWith(part))
+					completions.add("@" + player.getName());
+			for (final String channel : data.getChannelMap().keySet())
+				if (channel.toLowerCase().startsWith(part))
+					completions.add("@" + channel);
+		}
+		else
+		{
+			final String prefix = ChatHelper.listingString(",", ChatHelperExtended.cutArray(split, split.length - 1)) + ",";
+			final String part = split[split.length - 1].toLowerCase();
+			for (final Player player : Bukkit.getOnlinePlayers())
+				if (player.getName().toLowerCase().startsWith(part))
+					completions.add(prefix + player.getName());
+		}
 	}
 
 	protected void PlayerChatOwnerMessage(final String format, final Player player, final String message)
