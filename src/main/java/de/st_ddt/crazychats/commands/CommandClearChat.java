@@ -32,12 +32,12 @@ public class CommandClearChat extends CommandExecutor
 	@Localized({ "CRAZYCHATS.COMMAND.CLEARCHAT.CLEAR", "CRAZYCHATS.COMMAND.CLEARCHAT.MESSAGE $Clearer$", "CRAZYCHATS.COMMAND.CLEARCHAT.DONE $Clearer$ $Cleared$" })
 	public void command(final CommandSender sender, final String[] args) throws CrazyException
 	{
-		final CrazyLocale clear = plugin.getLocale().getLanguageEntry("COMMAND.CLEARCHAT.CLEAR");
-		final CrazyLocale cleared = plugin.getLocale().getLanguageEntry("COMMAND.CLEARCHAT.MESSAGE");
-		final int count = plugin.getClearChatLength();
+		final CrazyLocale clear = owner.getLocale().getLanguageEntry("COMMAND.CLEARCHAT.CLEAR");
+		final CrazyLocale cleared = owner.getLocale().getLanguageEntry("COMMAND.CLEARCHAT.MESSAGE");
+		final int count = owner.getClearChatLength();
 		if (args.length == 0)
 			if (sender instanceof Player)
-				Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
+				Bukkit.getScheduler().scheduleAsyncDelayedTask(owner, new Runnable()
 				{
 
 					@Override
@@ -50,7 +50,7 @@ public class CommandClearChat extends CommandExecutor
 				throw new CrazyCommandUsageException("<Player/*>");
 		else if (args.length == 1 && args[0].equalsIgnoreCase(sender.getName()))
 			if (sender instanceof Player)
-				Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
+				Bukkit.getScheduler().scheduleAsyncDelayedTask(owner, new Runnable()
 				{
 
 					@Override
@@ -66,8 +66,8 @@ public class CommandClearChat extends CommandExecutor
 		else if (args.length == 1 && args[0].equals("*"))
 		{
 			final Player[] players = Bukkit.getOnlinePlayers();
-			final CrazyLocale done = plugin.getLocale().getLanguageEntry("COMMAND.CLEARCHAT.DONE");
-			Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
+			final CrazyLocale done = owner.getLocale().getLanguageEntry("COMMAND.CLEARCHAT.DONE");
+			Bukkit.getScheduler().scheduleAsyncDelayedTask(owner, new Runnable()
 			{
 
 				@Override
@@ -91,8 +91,8 @@ public class CommandClearChat extends CommandExecutor
 			for (int i = 0; i < args.length; i++)
 				if ((players[i] = Bukkit.getPlayerExact(args[i])) == null)
 					throw new CrazyCommandNoSuchException("Player", args[i]);
-			final CrazyLocale done = plugin.getLocale().getLanguageEntry("COMMAND.CLEARCHAT.DONE");
-			Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
+			final CrazyLocale done = owner.getLocale().getLanguageEntry("COMMAND.CLEARCHAT.DONE");
+			Bukkit.getScheduler().scheduleAsyncDelayedTask(owner, new Runnable()
 			{
 
 				@Override
